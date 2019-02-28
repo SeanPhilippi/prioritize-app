@@ -12,10 +12,35 @@ class Person {
   }
 }
 
-const me = new Person('Sean Philippi', 25);
-console.log(me.getGreeting());
-console.log(me.getDescription());
+class Student extends Person {
+  constructor(name, age, major) {
+    super(name, age);
+    this.major = major;
+  }
+  hasMajor() {
+    return !!this.major
+  }
+  getDescription() {
+    let descript = super.getDescription();
+    if (this.hasMajor()) {
+      descript = descript + ` Their major is ${this.major}.`
+    }
+  }
+}
 
-const other = new Person();
+class Traveler extends Person {
+  constructor(name, age, homeLocation) {
+    super(name, age);
+    this.homeLocation = homeLocation;
+  }
+  getGreeting() {
+    let greeting = super.getGreeting();
+    return this.homeLocation ? `${greeting} I'm visiting from ${this.homeLocation}` : greeting;
+  }
+}
+
+const me = new Traveler('Sean Philippi', 28, 'Austin');
+console.log(me.getGreeting());
+
+const other = new Traveler();
 console.log(other.getGreeting());
-console.log(other.getDescription());
