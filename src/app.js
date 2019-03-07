@@ -27,20 +27,41 @@ class Header extends React.Component {
 }
 
 class Action extends React.Component {
+  handlePick() {
+    alert('you made a pick!')
+  }
+
   render() {
     return (
       <div>
-        <button>What should I do?</button>
+        <button onClick={this.handlePick}>What should I do?</button>
       </div>
     )
   }
 }
 
+class DeleteButton extends React.Component {
+  render() {
+    return (
+      <button>
+        Delete All Tasks
+      </button>
+    )
+  }
+}
+
 class List extends React.Component {
+  handleDelete() {
+    this.props.todos = [];
+  }
+
   render() {
     return (
       <div>
-        There are {this.props.todos.length} tasks for the day!
+        <DeleteButton onClick={this.handleDelete}/>
+        <div>
+          There are {this.props.todos.length} tasks for the day!
+        </div>
         {this.props.todos.map((item, idx) => {
           return <Task key={idx} text={item} />
         })}
@@ -63,13 +84,22 @@ class Task extends React.Component {
 }
 
 class AddTask extends React.Component {
+  handleAdd(e) {
+    e.preventDefault();
+    const task = e.target.elements.task.value.trim();
+    if (task) {
+      alert('a task!');
+    }
+  }
+
   render() {
     return (
-      <div>
-        <p>
-          AddTask component here.
-        </p>
-      </div>
+      <form onSubmit={this.handleAdd}>
+        <input className="input" type="text" name="task" placeholder="Enter task here..."/>
+        <button>
+          Add task
+        </button>
+      </form>
     )
   }
 }

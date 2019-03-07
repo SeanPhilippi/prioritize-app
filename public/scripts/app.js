@@ -80,6 +80,11 @@ var Action = function (_React$Component3) {
   }
 
   _createClass(Action, [{
+    key: "handlePick",
+    value: function handlePick() {
+      alert('you made a pick!');
+    }
+  }, {
     key: "render",
     value: function render() {
       return React.createElement(
@@ -87,7 +92,7 @@ var Action = function (_React$Component3) {
         null,
         React.createElement(
           "button",
-          null,
+          { onClick: this.handlePick },
           "What should I do?"
         )
       );
@@ -97,8 +102,31 @@ var Action = function (_React$Component3) {
   return Action;
 }(React.Component);
 
-var List = function (_React$Component4) {
-  _inherits(List, _React$Component4);
+var DeleteButton = function (_React$Component4) {
+  _inherits(DeleteButton, _React$Component4);
+
+  function DeleteButton() {
+    _classCallCheck(this, DeleteButton);
+
+    return _possibleConstructorReturn(this, (DeleteButton.__proto__ || Object.getPrototypeOf(DeleteButton)).apply(this, arguments));
+  }
+
+  _createClass(DeleteButton, [{
+    key: "render",
+    value: function render() {
+      return React.createElement(
+        "button",
+        null,
+        "Delete All Tasks"
+      );
+    }
+  }]);
+
+  return DeleteButton;
+}(React.Component);
+
+var List = function (_React$Component5) {
+  _inherits(List, _React$Component5);
 
   function List() {
     _classCallCheck(this, List);
@@ -107,14 +135,24 @@ var List = function (_React$Component4) {
   }
 
   _createClass(List, [{
+    key: "handleDelete",
+    value: function handleDelete() {
+      this.props.todos = [];
+    }
+  }, {
     key: "render",
     value: function render() {
       return React.createElement(
         "div",
         null,
-        "There are ",
-        this.props.todos.length,
-        " tasks for the day!",
+        React.createElement(DeleteButton, { onClick: this.handleDelete }),
+        React.createElement(
+          "div",
+          null,
+          "There are ",
+          this.props.todos.length,
+          " tasks for the day!"
+        ),
         this.props.todos.map(function (item, idx) {
           return React.createElement(Task, { key: idx, text: item });
         })
@@ -125,8 +163,8 @@ var List = function (_React$Component4) {
   return List;
 }(React.Component);
 
-var Task = function (_React$Component5) {
-  _inherits(Task, _React$Component5);
+var Task = function (_React$Component6) {
+  _inherits(Task, _React$Component6);
 
   function Task() {
     _classCallCheck(this, Task);
@@ -153,8 +191,8 @@ var Task = function (_React$Component5) {
   return Task;
 }(React.Component);
 
-var AddTask = function (_React$Component6) {
-  _inherits(AddTask, _React$Component6);
+var AddTask = function (_React$Component7) {
+  _inherits(AddTask, _React$Component7);
 
   function AddTask() {
     _classCallCheck(this, AddTask);
@@ -163,15 +201,25 @@ var AddTask = function (_React$Component6) {
   }
 
   _createClass(AddTask, [{
+    key: "handleAdd",
+    value: function handleAdd(e) {
+      e.preventDefault();
+      var task = e.target.elements.task.value.trim();
+      if (task) {
+        alert('a task!');
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
       return React.createElement(
-        "div",
-        null,
+        "form",
+        { onSubmit: this.handleAdd },
+        React.createElement("input", { className: "input", type: "text", name: "task", placeholder: "Enter task here..." }),
         React.createElement(
-          "p",
+          "button",
           null,
-          "AddTask component here."
+          "Add task"
         )
       );
     }
