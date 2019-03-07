@@ -1,9 +1,26 @@
+class IndecisionApp extends React.Component {
+  render() {
+    const title = "Indecision";
+    const subtitle = "Put your life in the hands of a computer";
+    const todos = ['interview practice', 'hackerrank', 'laundy', 'read']
+
+    return (
+      <div>
+        <Header title={title} subtitle={subtitle} />
+        <Action />
+        <List todos={todos}/>
+        <AddTask/>
+      </div>
+    );
+  }
+}
+
 class Header extends React.Component {
   render() {
     return (
       <div>
-        <h1>Indecision</h1>
-        <h2>Put your life in the hands of a computer</h2>
+        <h1>{this.props.title}</h1>
+        <h2>{this.props.subtitle}</h2>
       </div>
     )
   }
@@ -19,38 +36,42 @@ class Action extends React.Component {
   }
 }
 
-class Options extends React.Component {
+class List extends React.Component {
   render() {
     return (
       <div>
+        There are {this.props.todos.length} tasks for the day!
+        {this.props.todos.map((item, idx) => {
+          return <Task key={idx} text={item} />
+        })}
+      </div>
+    )
+  }
+}
+
+class Task extends React.Component {
+  render() {
+    console.log(this.props.text)
+    return (
+      <div>
         <p>
-          Options components here.
+          {this.props.text}
         </p>
       </div>
     )
   }
 }
 
-class AddOption extends React.Component {
+class AddTask extends React.Component {
   render() {
     return (
       <div>
         <p>
-          AddOption component here.
+          AddTask component here.
         </p>
       </div>
     )
   }
 }
 
-const jsx = (
-  <div>
-    <h1>Title</h1>
-    <Header />
-    <Action />
-    <Options />
-    <AddOption />
-  </div>
-)
-
-ReactDOM.render(jsx, document.getElementById('app'));
+ReactDOM.render(<IndecisionApp />, document.getElementById('app'));

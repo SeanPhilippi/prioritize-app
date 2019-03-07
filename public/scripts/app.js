@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -8,8 +8,38 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Header = function (_React$Component) {
-  _inherits(Header, _React$Component);
+var IndecisionApp = function (_React$Component) {
+  _inherits(IndecisionApp, _React$Component);
+
+  function IndecisionApp() {
+    _classCallCheck(this, IndecisionApp);
+
+    return _possibleConstructorReturn(this, (IndecisionApp.__proto__ || Object.getPrototypeOf(IndecisionApp)).apply(this, arguments));
+  }
+
+  _createClass(IndecisionApp, [{
+    key: "render",
+    value: function render() {
+      var title = "Indecision";
+      var subtitle = "Put your life in the hands of a computer";
+      var todos = ['interview practice', 'hackerrank', 'laundy', 'read'];
+
+      return React.createElement(
+        "div",
+        null,
+        React.createElement(Header, { title: title, subtitle: subtitle }),
+        React.createElement(Action, null),
+        React.createElement(List, { todos: todos }),
+        React.createElement(AddTask, null)
+      );
+    }
+  }]);
+
+  return IndecisionApp;
+}(React.Component);
+
+var Header = function (_React$Component2) {
+  _inherits(Header, _React$Component2);
 
   function Header() {
     _classCallCheck(this, Header);
@@ -18,20 +48,20 @@ var Header = function (_React$Component) {
   }
 
   _createClass(Header, [{
-    key: 'render',
+    key: "render",
     value: function render() {
       return React.createElement(
-        'div',
+        "div",
         null,
         React.createElement(
-          'h1',
+          "h1",
           null,
-          'Indecision'
+          this.props.title
         ),
         React.createElement(
-          'h2',
+          "h2",
           null,
-          'Put your life in the hands of a computer'
+          this.props.subtitle
         )
       );
     }
@@ -40,8 +70,8 @@ var Header = function (_React$Component) {
   return Header;
 }(React.Component);
 
-var Action = function (_React$Component2) {
-  _inherits(Action, _React$Component2);
+var Action = function (_React$Component3) {
+  _inherits(Action, _React$Component3);
 
   function Action() {
     _classCallCheck(this, Action);
@@ -50,15 +80,15 @@ var Action = function (_React$Component2) {
   }
 
   _createClass(Action, [{
-    key: 'render',
+    key: "render",
     value: function render() {
       return React.createElement(
-        'div',
+        "div",
         null,
         React.createElement(
-          'button',
+          "button",
           null,
-          'What should I do?'
+          "What should I do?"
         )
       );
     }
@@ -67,72 +97,87 @@ var Action = function (_React$Component2) {
   return Action;
 }(React.Component);
 
-var Options = function (_React$Component3) {
-  _inherits(Options, _React$Component3);
+var List = function (_React$Component4) {
+  _inherits(List, _React$Component4);
 
-  function Options() {
-    _classCallCheck(this, Options);
+  function List() {
+    _classCallCheck(this, List);
 
-    return _possibleConstructorReturn(this, (Options.__proto__ || Object.getPrototypeOf(Options)).apply(this, arguments));
+    return _possibleConstructorReturn(this, (List.__proto__ || Object.getPrototypeOf(List)).apply(this, arguments));
   }
 
-  _createClass(Options, [{
-    key: 'render',
+  _createClass(List, [{
+    key: "render",
     value: function render() {
       return React.createElement(
-        'div',
+        "div",
+        null,
+        "There are ",
+        this.props.todos.length,
+        " tasks for the day!",
+        this.props.todos.map(function (item, idx) {
+          return React.createElement(Task, { key: idx, text: item });
+        })
+      );
+    }
+  }]);
+
+  return List;
+}(React.Component);
+
+var Task = function (_React$Component5) {
+  _inherits(Task, _React$Component5);
+
+  function Task() {
+    _classCallCheck(this, Task);
+
+    return _possibleConstructorReturn(this, (Task.__proto__ || Object.getPrototypeOf(Task)).apply(this, arguments));
+  }
+
+  _createClass(Task, [{
+    key: "render",
+    value: function render() {
+      console.log(this.props.text);
+      return React.createElement(
+        "div",
         null,
         React.createElement(
-          'p',
+          "p",
           null,
-          'Options components here.'
+          this.props.text
         )
       );
     }
   }]);
 
-  return Options;
+  return Task;
 }(React.Component);
 
-var AddOption = function (_React$Component4) {
-  _inherits(AddOption, _React$Component4);
+var AddTask = function (_React$Component6) {
+  _inherits(AddTask, _React$Component6);
 
-  function AddOption() {
-    _classCallCheck(this, AddOption);
+  function AddTask() {
+    _classCallCheck(this, AddTask);
 
-    return _possibleConstructorReturn(this, (AddOption.__proto__ || Object.getPrototypeOf(AddOption)).apply(this, arguments));
+    return _possibleConstructorReturn(this, (AddTask.__proto__ || Object.getPrototypeOf(AddTask)).apply(this, arguments));
   }
 
-  _createClass(AddOption, [{
-    key: 'render',
+  _createClass(AddTask, [{
+    key: "render",
     value: function render() {
       return React.createElement(
-        'div',
+        "div",
         null,
         React.createElement(
-          'p',
+          "p",
           null,
-          'AddOption component here.'
+          "AddTask component here."
         )
       );
     }
   }]);
 
-  return AddOption;
+  return AddTask;
 }(React.Component);
 
-var jsx = React.createElement(
-  'div',
-  null,
-  React.createElement(
-    'h1',
-    null,
-    'Title'
-  ),
-  React.createElement(Header, null),
-  React.createElement(Action, null),
-  React.createElement(Options, null),
-  React.createElement(AddOption, null)
-);
-
-ReactDOM.render(jsx, document.getElementById('app'));
+ReactDOM.render(React.createElement(IndecisionApp, null), document.getElementById('app'));
