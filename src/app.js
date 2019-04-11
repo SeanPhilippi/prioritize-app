@@ -5,7 +5,9 @@ const obj = {
   }
 }
 
-console.log(obj.getName());
+const getName = obj.getName.bind(obj)
+
+console.log(getName())
 
 class IndecisionApp extends React.Component {
   render() {
@@ -50,9 +52,6 @@ class Action extends React.Component {
 }
 
 class DeleteButton extends React.Component {
-  handleDelete() {
-    alert('delete!')
-  }
 
   render() {
     return (
@@ -64,12 +63,20 @@ class DeleteButton extends React.Component {
 }
 
 class List extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleDelete = this.handleDelete.bind(this);
+  }
+
+  handleDelete() {
+    console.log(this.props.todos)
+  }
   
   render() {
     console.log('props', this.props)
     return (
       <div>
-        <DeleteButton todos={this.props.todos}/>
+        <button onClick={this.handleDelete}>delete all</button>
         <div>
           There are {this.props.todos.length} tasks for the day!
         </div>
