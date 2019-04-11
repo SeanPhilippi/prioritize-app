@@ -1,3 +1,12 @@
+const obj = {
+  name: 'Balthazar',
+  getName() {
+    return this.name
+  }
+}
+
+console.log(obj.getName());
+
 class IndecisionApp extends React.Component {
   render() {
     const title = "Indecision";
@@ -41,9 +50,13 @@ class Action extends React.Component {
 }
 
 class DeleteButton extends React.Component {
+  handleDelete() {
+    alert('delete!')
+  }
+
   render() {
     return (
-      <button>
+      <button onClick={this.handleDelete}>
         Delete All Tasks
       </button>
     )
@@ -51,14 +64,12 @@ class DeleteButton extends React.Component {
 }
 
 class List extends React.Component {
-  handleDelete() {
-    this.props.todos = [];
-  }
-
+  
   render() {
+    console.log('props', this.props)
     return (
       <div>
-        <DeleteButton onClick={this.handleDelete}/>
+        <DeleteButton todos={this.props.todos}/>
         <div>
           There are {this.props.todos.length} tasks for the day!
         </div>
@@ -86,9 +97,10 @@ class Task extends React.Component {
 class AddTask extends React.Component {
   handleAdd(e) {
     e.preventDefault();
+    // trim prevents empty strings and space in input
     const task = e.target.elements.task.value.trim();
     if (task) {
-      alert('a task!');
+      alert(`${task}`);
     }
   }
 

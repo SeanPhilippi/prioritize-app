@@ -1,0 +1,17 @@
+start environment, run these commands:
+
+babel src/app.js --out-file=public/scripts/app.js --presets=env,react --watch
+
+
+
+-- My Deviations --
+
+- making a task app instead, eventually going to make it so you can prioritize certain tasks in a branching sort of way where you pick
+your ONE priority and whittle down to that ONE to focus on FIRST for that day
+
+- AddTask is AddOption
+
+
+--- left off ---
+
+- learning about this, and binding 4:30 30. Method Binding

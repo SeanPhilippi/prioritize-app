@@ -8,6 +8,15 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var obj = {
+  name: 'Balthazar',
+  getName: function getName() {
+    return this.name;
+  }
+};
+
+console.log(obj.getName());
+
 var IndecisionApp = function (_React$Component) {
   _inherits(IndecisionApp, _React$Component);
 
@@ -112,11 +121,16 @@ var DeleteButton = function (_React$Component4) {
   }
 
   _createClass(DeleteButton, [{
+    key: "handleDelete",
+    value: function handleDelete() {
+      alert('delete!');
+    }
+  }, {
     key: "render",
     value: function render() {
       return React.createElement(
         "button",
-        null,
+        { onClick: this.handleDelete },
         "Delete All Tasks"
       );
     }
@@ -135,17 +149,13 @@ var List = function (_React$Component5) {
   }
 
   _createClass(List, [{
-    key: "handleDelete",
-    value: function handleDelete() {
-      this.props.todos = [];
-    }
-  }, {
     key: "render",
     value: function render() {
+      console.log('props', this.props);
       return React.createElement(
         "div",
         null,
-        React.createElement(DeleteButton, { onClick: this.handleDelete }),
+        React.createElement(DeleteButton, { todos: this.props.todos }),
         React.createElement(
           "div",
           null,
@@ -204,9 +214,10 @@ var AddTask = function (_React$Component7) {
     key: "handleAdd",
     value: function handleAdd(e) {
       e.preventDefault();
+      // trim prevents empty strings and space in input
       var task = e.target.elements.task.value.trim();
       if (task) {
-        alert('a task!');
+        alert("" + task);
       }
     }
   }, {
