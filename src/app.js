@@ -1,18 +1,8 @@
-const obj = {
-  name: 'Balthazar',
-  getName() {
-    return this.name
-  }
-}
-
-const getName = obj.getName.bind(obj)
-
-console.log(getName())
-
 class IndecisionApp extends React.Component {
   constructor(props) {
     super(props);
     this.handleDeleteTasks = this.handleDeleteTasks.bind(this);
+    this.onMakeDecision = this.onMakeDecision.bind(this);
     this.state = {
       tasks: ['interview practice', 'hackerrank', 'laundy', 'read', 'journal'],
     }
@@ -22,20 +12,27 @@ class IndecisionApp extends React.Component {
     this.setState(() => ({ tasks: [] }))
   }
 
+  onMakeDecision() {
+    const randomNum = Math.floor(Math.random() * this.state.tasks.length);
+    const task = this.state.tasks[randomNum];
+    alert(task);
+  }
+
   render() {
-    const title = "Indecision";
-    const subtitle = "Put your life in the hands of a computer";
+    const title = "Prioritize!";
+    const subtitle = "Decide what your ONE priority for the day is!";
 
     return (
       <div>
         <Header title={title} subtitle={subtitle} />
-        <Action hasTasks={this.state.tasks.length > 0} />
+        <Action makeDecision={this.onMakeDecision} hasTasks={this.state.tasks.length > 0} />
         <TaskList deleteTasks={this.handleDeleteTasks} tasks={this.state.tasks} />
         <AddTask/>
       </div>
     );
   }
 }
+
 
 class Header extends React.Component {
   render() {
@@ -48,16 +45,14 @@ class Header extends React.Component {
   }
 }
 
+
 class Action extends React.Component {
-  handlePick() {
-    alert('you made a pick!')
-  }
 
   render() {
     return (
       <div>
         <button 
-          onClick={this.handlePick}
+          onClick={this.props.makeDecision}
           disabled={!this.props.hasTasks}
         >
           What should I do?
@@ -97,6 +92,7 @@ class TaskList extends React.Component {
   }
 }
 
+
 class Task extends React.Component {
   render() {
     console.log(this.props.text)
@@ -109,6 +105,7 @@ class Task extends React.Component {
     )
   }
 }
+
 
 class AddTask extends React.Component {
   handleAdd(e) {

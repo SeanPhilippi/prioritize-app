@@ -8,17 +8,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var obj = {
-  name: 'Balthazar',
-  getName: function getName() {
-    return this.name;
-  }
-};
-
-var getName = obj.getName.bind(obj);
-
-console.log(getName());
-
 var IndecisionApp = function (_React$Component) {
   _inherits(IndecisionApp, _React$Component);
 
@@ -28,6 +17,7 @@ var IndecisionApp = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (IndecisionApp.__proto__ || Object.getPrototypeOf(IndecisionApp)).call(this, props));
 
     _this.handleDeleteTasks = _this.handleDeleteTasks.bind(_this);
+    _this.onMakeDecision = _this.onMakeDecision.bind(_this);
     _this.state = {
       tasks: ['interview practice', 'hackerrank', 'laundy', 'read', 'journal']
     };
@@ -42,16 +32,23 @@ var IndecisionApp = function (_React$Component) {
       });
     }
   }, {
+    key: 'onMakeDecision',
+    value: function onMakeDecision() {
+      var randomNum = Math.floor(Math.random() * this.state.tasks.length);
+      var task = this.state.tasks[randomNum];
+      alert(task);
+    }
+  }, {
     key: 'render',
     value: function render() {
-      var title = "Indecision";
-      var subtitle = "Put your life in the hands of a computer";
+      var title = "Prioritize!";
+      var subtitle = "Decide what your ONE priority for the day is!";
 
       return React.createElement(
         'div',
         null,
         React.createElement(Header, { title: title, subtitle: subtitle }),
-        React.createElement(Action, { hasTasks: this.state.tasks.length > 0 }),
+        React.createElement(Action, { makeDecision: this.onMakeDecision, hasTasks: this.state.tasks.length > 0 }),
         React.createElement(TaskList, { deleteTasks: this.handleDeleteTasks, tasks: this.state.tasks }),
         React.createElement(AddTask, null)
       );
@@ -103,11 +100,6 @@ var Action = function (_React$Component3) {
   }
 
   _createClass(Action, [{
-    key: 'handlePick',
-    value: function handlePick() {
-      alert('you made a pick!');
-    }
-  }, {
     key: 'render',
     value: function render() {
       return React.createElement(
@@ -116,7 +108,7 @@ var Action = function (_React$Component3) {
         React.createElement(
           'button',
           {
-            onClick: this.handlePick,
+            onClick: this.props.makeDecision,
             disabled: !this.props.hasTasks
           },
           'What should I do?'
