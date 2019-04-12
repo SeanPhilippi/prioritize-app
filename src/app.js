@@ -10,16 +10,27 @@ const getName = obj.getName.bind(obj)
 console.log(getName())
 
 class IndecisionApp extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleDeleteTasks = this.handleDeleteTasks.bind(this);
+    this.state = {
+      tasks: ['interview practice', 'hackerrank', 'laundy', 'read', 'journal'],
+    }
+  }
+
+  handleDeleteTasks() {
+    this.setState(() => ({ tasks: [] }))
+  }
+
   render() {
     const title = "Indecision";
     const subtitle = "Put your life in the hands of a computer";
-    const todos = ['interview practice', 'hackerrank', 'laundy', 'read']
 
     return (
       <div>
         <Header title={title} subtitle={subtitle} />
-        <Action />
-        <List todos={todos}/>
+        <Action hasTasks={this.state.tasks.length > 0} />
+        <TaskList deleteTasks={this.handleDeleteTasks} tasks={this.state.tasks} />
         <AddTask/>
       </div>
     );
@@ -45,42 +56,40 @@ class Action extends React.Component {
   render() {
     return (
       <div>
-        <button onClick={this.handlePick}>What should I do?</button>
+        <button 
+          onClick={this.handlePick}
+          disabled={!this.props.hasTasks}
+        >
+          What should I do?
+        </button>
       </div>
     )
   }
 }
 
-class DeleteButton extends React.Component {
+// class DeleteButton extends React.Component {
 
-  render() {
-    return (
-      <button onClick={this.handleDelete}>
-        Delete All Tasks
-      </button>
-    )
-  }
-}
+//   render() {
+//     return (
+//       <button onClick={this.handleDelete}>
+//         Delete All Tasks
+//       </button>
+//     )
+//   }
+// }
 
-class List extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleDelete = this.handleDelete.bind(this);
-  }
-
-  handleDelete() {
-    console.log(this.props.todos)
-  }
+class TaskList extends React.Component {  
   
   render() {
-    console.log('props', this.props)
     return (
       <div>
-        <button onClick={this.handleDelete}>delete all</button>
+        <button onClick={this.props.deleteTasks}>
+          delete all
+        </button>
         <div>
-          There are {this.props.todos.length} tasks for the day!
+          There are {this.props.tasks.length} tasks for the day!
         </div>
-        {this.props.todos.map((item, idx) => {
+        {this.props.tasks.map((item, idx) => {
           return <Task key={idx} text={item} />
         })}
       </div>
