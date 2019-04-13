@@ -3,9 +3,22 @@ class IndecisionApp extends React.Component {
     super(props);
     this.handleDeleteTasks = this.handleDeleteTasks.bind(this);
     this.onMakeDecision = this.onMakeDecision.bind(this);
+    this.handleAddTask = this.handleAddTask.bind(this);
     this.state = {
-      tasks: ['interview practice', 'hackerrank', 'laundy', 'read', 'journal'],
+      tasks: [],
     }
+  }
+
+  handleAddTask(task) {
+    if (!task) {
+      return 'Enter valid value to add item';
+    } else if (this.state.tasks.indexOf(task) > -1) {
+      return 'This tasks already exists';
+    } 
+
+    this.setState(prevState => ({
+      tasks: prevState.tasks.concat(task)
+    }))
   }
 
   handleDeleteTasks() {
@@ -27,7 +40,7 @@ class IndecisionApp extends React.Component {
         <Header title={title} subtitle={subtitle} />
         <Action makeDecision={this.onMakeDecision} hasTasks={this.state.tasks.length > 0} />
         <TaskList deleteTasks={this.handleDeleteTasks} tasks={this.state.tasks} />
-        <AddTask/>
+        <AddTask handleAddTask={this.handleAddTask} />
       </div>
     );
   }
@@ -108,23 +121,33 @@ class Task extends React.Component {
 
 
 class AddTask extends React.Component {
-  handleAdd(e) {
+  constructor(props) {
+    super(props);
+    this.handleAddTask = this.handleAddTask.bind(this);
+    this.state = {
+      error: undefined
+    }
+  }
+  handleAddTask(e) {
     e.preventDefault();
     // trim prevents empty strings and space in input
     const task = e.target.elements.task.value.trim();
-    if (task) {
-      alert(`${task}`);
-    }
+    const error = this.props.handleAddTask(task);
+
+    this.setState(() => ({error}));
   }
 
   render() {
     return (
-      <form onSubmit={this.handleAdd}>
-        <input className="input" type="text" name="task" placeholder="Enter task here..."/>
-        <button>
-          Add task
-        </button>
-      </form>
+      <div>
+        {this.state.error && <p>{this.state.error}</p>}
+        <form onSubmit={this.handleAddTask}>
+          <input className="input" type="text" name="task" placeholder="Enter task here..."/>
+          <button>
+            Add task
+          </button>
+        </form>
+      </div>
     )
   }
 }

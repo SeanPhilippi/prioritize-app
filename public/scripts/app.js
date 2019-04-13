@@ -18,13 +18,29 @@ var IndecisionApp = function (_React$Component) {
 
     _this.handleDeleteTasks = _this.handleDeleteTasks.bind(_this);
     _this.onMakeDecision = _this.onMakeDecision.bind(_this);
+    _this.handleAddTask = _this.handleAddTask.bind(_this);
     _this.state = {
-      tasks: ['interview practice', 'hackerrank', 'laundy', 'read', 'journal']
+      tasks: []
     };
     return _this;
   }
 
   _createClass(IndecisionApp, [{
+    key: 'handleAddTask',
+    value: function handleAddTask(task) {
+      if (!task) {
+        return 'Enter valid value to add item';
+      } else if (this.state.tasks.indexOf(task) > -1) {
+        return 'This tasks already exists';
+      }
+
+      this.setState(function (prevState) {
+        return {
+          tasks: prevState.tasks.concat(task)
+        };
+      });
+    }
+  }, {
     key: 'handleDeleteTasks',
     value: function handleDeleteTasks() {
       this.setState(function () {
@@ -50,7 +66,7 @@ var IndecisionApp = function (_React$Component) {
         React.createElement(Header, { title: title, subtitle: subtitle }),
         React.createElement(Action, { makeDecision: this.onMakeDecision, hasTasks: this.state.tasks.length > 0 }),
         React.createElement(TaskList, { deleteTasks: this.handleDeleteTasks, tasks: this.state.tasks }),
-        React.createElement(AddTask, null)
+        React.createElement(AddTask, { handleAddTask: this.handleAddTask })
       );
     }
   }]);
@@ -199,33 +215,50 @@ var Task = function (_React$Component5) {
 var AddTask = function (_React$Component6) {
   _inherits(AddTask, _React$Component6);
 
-  function AddTask() {
+  function AddTask(props) {
     _classCallCheck(this, AddTask);
 
-    return _possibleConstructorReturn(this, (AddTask.__proto__ || Object.getPrototypeOf(AddTask)).apply(this, arguments));
+    var _this6 = _possibleConstructorReturn(this, (AddTask.__proto__ || Object.getPrototypeOf(AddTask)).call(this, props));
+
+    _this6.handleAddTask = _this6.handleAddTask.bind(_this6);
+    _this6.state = {
+      error: undefined
+    };
+    return _this6;
   }
 
   _createClass(AddTask, [{
-    key: 'handleAdd',
-    value: function handleAdd(e) {
+    key: 'handleAddTask',
+    value: function handleAddTask(e) {
       e.preventDefault();
       // trim prevents empty strings and space in input
       var task = e.target.elements.task.value.trim();
-      if (task) {
-        alert('' + task);
-      }
+      var error = this.props.handleAddTask(task);
+
+      this.setState(function () {
+        return { error: error };
+      });
     }
   }, {
     key: 'render',
     value: function render() {
       return React.createElement(
-        'form',
-        { onSubmit: this.handleAdd },
-        React.createElement('input', { className: 'input', type: 'text', name: 'task', placeholder: 'Enter task here...' }),
-        React.createElement(
-          'button',
+        'div',
+        null,
+        this.state.error && React.createElement(
+          'p',
           null,
-          'Add task'
+          this.state.error
+        ),
+        React.createElement(
+          'form',
+          { onSubmit: this.handleAddTask },
+          React.createElement('input', { className: 'input', type: 'text', name: 'task', placeholder: 'Enter task here...' }),
+          React.createElement(
+            'button',
+            null,
+            'Add task'
+          )
         )
       );
     }
