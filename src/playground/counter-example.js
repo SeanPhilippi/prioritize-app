@@ -50,4 +50,4 @@ Counter.defaultProps = {
   count: 0
 }
 
-ReactDOM.render(<Counter count={2}/>, document.getElementById('app'));
+ReactDOM.render(<PrioritizeApp />, document.getElementById('app'));
