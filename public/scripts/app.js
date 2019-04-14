@@ -29,6 +29,30 @@ var PrioritizeApp = function (_React$Component) {
   }
 
   _createClass(PrioritizeApp, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      try {
+        var fetchedTasks = JSON.parse(localStorage.getItem('tasks'));
+        if (fetchedTasks) {
+          console.log('fetching data');
+          this.setState(function () {
+            return { tasks: fetchedTasks };
+          });
+        }
+      } catch (err) {
+        console.log('error', err);
+      }
+    }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate(prevProps, prevState) {
+      if (prevState.tasks.length !== this.state.tasks.length) {
+        console.log('saving data to localStorage');
+        var json = JSON.stringify(this.state.tasks);
+        localStorage.setItem('tasks', json);
+      }
+    }
+  }, {
     key: 'handleAddTask',
     value: function handleAddTask(task) {
       if (!task) {
@@ -207,6 +231,10 @@ var AddTask = function (_React$Component2) {
       this.setState(function () {
         return { error: error };
       });
+
+      if (!error) {
+        e.target.elements.task.value = '';
+      }
     }
   }, {
     key: 'render',

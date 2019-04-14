@@ -10,6 +10,26 @@ class PrioritizeApp extends React.Component {
     }
   }
 
+  componentDidMount() {
+    try {
+      const fetchedTasks = JSON.parse(localStorage.getItem('tasks'));
+      if (fetchedTasks) {
+        console.log('fetching data');
+        this.setState(() => ({ tasks: fetchedTasks }));
+      }
+    } catch (err) {
+      console.log('error', err);
+    }
+  }
+  
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.tasks.length !== this.state.tasks.length) {
+      console.log('saving data to localStorage');
+      const json = JSON.stringify(this.state.tasks);
+      localStorage.setItem('tasks', json);
+    }
+  }
+
   handleAddTask(task) {
     if (!task) {
       return 'Enter valid value to add item';
@@ -118,7 +138,7 @@ const Task = props => {
       <p>
         {props.text}
         <button 
-          onClick={e => (props.deleteTask(props.text))}
+          onClick={e => props.deleteTask(props.text)}
         >
           x
         </button>
@@ -143,6 +163,10 @@ class AddTask extends React.Component {
     const error = this.props.handleAddTask(task);
 
     this.setState(() => ({error}));
+
+    if (!error) {
+      e.target.elements.task.value = '';
+    }
   }
 
   render() {
