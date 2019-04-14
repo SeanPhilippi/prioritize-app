@@ -2,6 +2,8 @@
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -19,6 +21,7 @@ var PrioritizeApp = function (_React$Component) {
     _this.handleDeleteTasks = _this.handleDeleteTasks.bind(_this);
     _this.onMakeDecision = _this.onMakeDecision.bind(_this);
     _this.handleAddTask = _this.handleAddTask.bind(_this);
+    _this.handleDeleteTask = _this.handleDeleteTask.bind(_this);
     _this.state = {
       tasks: props.tasks
     };
@@ -48,6 +51,17 @@ var PrioritizeApp = function (_React$Component) {
       });
     }
   }, {
+    key: 'handleDeleteTask',
+    value: function handleDeleteTask(task) {
+      this.setState(function (prevState) {
+        return {
+          tasks: [].concat(_toConsumableArray(prevState.tasks.filter(function (item) {
+            return item !== task;
+          })))
+        };
+      });
+    }
+  }, {
     key: 'onMakeDecision',
     value: function onMakeDecision() {
       var randomNum = Math.floor(Math.random() * this.state.tasks.length);
@@ -64,7 +78,11 @@ var PrioritizeApp = function (_React$Component) {
         null,
         React.createElement(Header, { subtitle: subtitle }),
         React.createElement(Action, { makeDecision: this.onMakeDecision, hasTasks: this.state.tasks.length > 0 }),
-        React.createElement(TaskList, { deleteTasks: this.handleDeleteTasks, tasks: this.state.tasks }),
+        React.createElement(TaskList, {
+          deleteTask: this.handleDeleteTask,
+          deleteTasks: this.handleDeleteTasks,
+          tasks: this.state.tasks
+        }),
         React.createElement(AddTask, { handleAddTask: this.handleAddTask })
       );
     }
@@ -114,24 +132,15 @@ var Action = function Action(props) {
   );
 };
 
-// class DeleteButton extends React.Component {
-
-//   render() {
-//     return (
-//       <button onClick={this.handleDelete}>
-//         Delete All Tasks
-//       </button>
-//     )
-//   }
-// }
-
 var TaskList = function TaskList(props) {
   return React.createElement(
     'div',
     null,
     React.createElement(
       'button',
-      { onClick: props.deleteTasks },
+      {
+        onClick: props.deleteTasks
+      },
       'delete all'
     ),
     React.createElement(
@@ -142,7 +151,11 @@ var TaskList = function TaskList(props) {
       ' tasks for the day!'
     ),
     props.tasks.map(function (item, idx) {
-      return React.createElement(Task, { key: idx, text: item });
+      return React.createElement(Task, {
+        deleteTask: props.deleteTask,
+        key: item,
+        text: item
+      });
     })
   );
 };
@@ -154,7 +167,16 @@ var Task = function Task(props) {
     React.createElement(
       'p',
       null,
-      props.text
+      props.text,
+      React.createElement(
+        'button',
+        {
+          onClick: function onClick(e) {
+            return props.deleteTask(props.text);
+          }
+        },
+        'x'
+      )
     )
   );
 };

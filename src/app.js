@@ -4,6 +4,7 @@ class PrioritizeApp extends React.Component {
     this.handleDeleteTasks = this.handleDeleteTasks.bind(this);
     this.onMakeDecision = this.onMakeDecision.bind(this);
     this.handleAddTask = this.handleAddTask.bind(this);
+    this.handleDeleteTask = this.handleDeleteTask.bind(this);
     this.state = {
       tasks: props.tasks
     }
@@ -25,6 +26,12 @@ class PrioritizeApp extends React.Component {
     this.setState(() => ({ tasks: [] }))
   }
 
+  handleDeleteTask(task) {
+    this.setState(prevState => ({
+        tasks: [...prevState.tasks.filter(item => item !== task)]
+    }))
+  }
+
   onMakeDecision() {
     const randomNum = Math.floor(Math.random() * this.state.tasks.length);
     const task = this.state.tasks[randomNum];
@@ -38,7 +45,11 @@ class PrioritizeApp extends React.Component {
       <div>
         <Header subtitle={subtitle} />
         <Action makeDecision={this.onMakeDecision} hasTasks={this.state.tasks.length > 0} />
-        <TaskList deleteTasks={this.handleDeleteTasks} tasks={this.state.tasks} />
+        <TaskList 
+          deleteTask={this.handleDeleteTask}
+          deleteTasks={this.handleDeleteTasks} 
+          tasks={this.state.tasks} 
+        />
         <AddTask handleAddTask={this.handleAddTask} />
       </div>
     );
@@ -78,29 +89,24 @@ const Action = props => {
   )
 }
 
-// class DeleteButton extends React.Component {
-
-//   render() {
-//     return (
-//       <button onClick={this.handleDelete}>
-//         Delete All Tasks
-//       </button>
-//     )
-//   }
-// }
-
 const TaskList = props => {  
   return (
     <div>
-      <button onClick={props.deleteTasks}>
+      <button 
+        onClick={props.deleteTasks}
+      >
         delete all
       </button>
       <div>
         There are {props.tasks.length} tasks for the day!
       </div>
-      {props.tasks.map((item, idx) => {
-        return <Task key={idx} text={item} />
-      })}
+      {props.tasks.map((item, idx) => (
+        <Task 
+          deleteTask={props.deleteTask} 
+          key={item} 
+          text={item} 
+        />
+      ))}
     </div>
   )
 }
@@ -111,6 +117,11 @@ const Task = props => {
     <div>
       <p>
         {props.text}
+        <button 
+          onClick={e => (props.deleteTask(props.text))}
+        >
+          x
+        </button>
       </p>
     </div>
   )
