@@ -1,11 +1,11 @@
-class IndecisionApp extends React.Component {
+class PrioritizeApp extends React.Component {
   constructor(props) {
     super(props);
     this.handleDeleteTasks = this.handleDeleteTasks.bind(this);
     this.onMakeDecision = this.onMakeDecision.bind(this);
     this.handleAddTask = this.handleAddTask.bind(this);
     this.state = {
-      tasks: [],
+      tasks: props.tasks
     }
   }
 
@@ -32,12 +32,11 @@ class IndecisionApp extends React.Component {
   }
 
   render() {
-    const title = "Prioritize!";
     const subtitle = "Decide what your ONE priority for the day is!";
 
     return (
       <div>
-        <Header title={title} subtitle={subtitle} />
+        <Header subtitle={subtitle} />
         <Action makeDecision={this.onMakeDecision} hasTasks={this.state.tasks.length > 0} />
         <TaskList deleteTasks={this.handleDeleteTasks} tasks={this.state.tasks} />
         <AddTask handleAddTask={this.handleAddTask} />
@@ -46,33 +45,37 @@ class IndecisionApp extends React.Component {
   }
 }
 
-
-class Header extends React.Component {
-  render() {
-    return (
-      <div>
-        <h1>{this.props.title}</h1>
-        <h2>{this.props.subtitle}</h2>
-      </div>
-    )
-  }
+PrioritizeApp.defaultProps = {
+  tasks: []
 }
 
 
-class Action extends React.Component {
+const Header = props => {
+  return (
+    <div>
+      <h1>{props.title}</h1>
+      {props.subtitle && <h2>{props.subtitle}</h2>}
+    </div>
+  )
+}
 
-  render() {
-    return (
-      <div>
-        <button 
-          onClick={this.props.makeDecision}
-          disabled={!this.props.hasTasks}
-        >
-          What should I do?
-        </button>
-      </div>
-    )
-  }
+Header.defaultProps = {
+  title: "Prioritize!"
+}
+
+
+const Action = props => {
+
+  return (
+    <div>
+      <button 
+        onClick={props.makeDecision}
+        disabled={!props.hasTasks}
+      >
+        What should I do?
+      </button>
+    </div>
+  )
 }
 
 // class DeleteButton extends React.Component {
@@ -86,37 +89,31 @@ class Action extends React.Component {
 //   }
 // }
 
-class TaskList extends React.Component {  
-  
-  render() {
-    return (
+const TaskList = props => {  
+  return (
+    <div>
+      <button onClick={props.deleteTasks}>
+        delete all
+      </button>
       <div>
-        <button onClick={this.props.deleteTasks}>
-          delete all
-        </button>
-        <div>
-          There are {this.props.tasks.length} tasks for the day!
-        </div>
-        {this.props.tasks.map((item, idx) => {
-          return <Task key={idx} text={item} />
-        })}
+        There are {props.tasks.length} tasks for the day!
       </div>
-    )
-  }
+      {props.tasks.map((item, idx) => {
+        return <Task key={idx} text={item} />
+      })}
+    </div>
+  )
 }
 
 
-class Task extends React.Component {
-  render() {
-    console.log(this.props.text)
-    return (
-      <div>
-        <p>
-          {this.props.text}
-        </p>
-      </div>
-    )
-  }
+const Task = props => {
+  return (
+    <div>
+      <p>
+        {props.text}
+      </p>
+    </div>
+  )
 }
 
 
@@ -152,4 +149,13 @@ class AddTask extends React.Component {
   }
 }
 
-ReactDOM.render(<IndecisionApp />, document.getElementById('app'));
+// const User = (props) => {
+//   return (
+//     <div>
+//       <p>Name: {props.name}</p>
+//       <p>Age: {props.age}</p>
+//     </div>
+//   )
+// }
+
+ReactDOM.render(<PrioritizeApp />, document.getElementById('app'));

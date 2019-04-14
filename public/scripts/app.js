@@ -8,82 +8,51 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var IndecisionApp = function (_React$Component) {
-  _inherits(IndecisionApp, _React$Component);
+var Counter = function (_React$Component) {
+  _inherits(Counter, _React$Component);
 
-  function IndecisionApp(props) {
-    _classCallCheck(this, IndecisionApp);
+  function Counter(props) {
+    _classCallCheck(this, Counter);
 
-    var _this = _possibleConstructorReturn(this, (IndecisionApp.__proto__ || Object.getPrototypeOf(IndecisionApp)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (Counter.__proto__ || Object.getPrototypeOf(Counter)).call(this, props));
 
-    _this.handleDeleteTasks = _this.handleDeleteTasks.bind(_this);
-    _this.onMakeDecision = _this.onMakeDecision.bind(_this);
-    _this.handleAddTask = _this.handleAddTask.bind(_this);
+    _this.handleAddOne = _this.handleAddOne.bind(_this);
+    _this.handleMinusOne = _this.handleMinusOne.bind(_this);
+    _this.handleReset = _this.handleReset.bind(_this);
     _this.state = {
-      tasks: []
+      count: props.count
     };
     return _this;
   }
 
-  _createClass(IndecisionApp, [{
-    key: 'handleAddTask',
-    value: function handleAddTask(task) {
-      if (!task) {
-        return 'Enter valid value to add item';
-      } else if (this.state.tasks.indexOf(task) > -1) {
-        return 'This tasks already exists';
-      }
-
+  _createClass(Counter, [{
+    key: 'handleAddOne',
+    value: function handleAddOne() {
       this.setState(function (prevState) {
         return {
-          tasks: prevState.tasks.concat(task)
+          count: prevState.count + 1
         };
       });
     }
   }, {
-    key: 'handleDeleteTasks',
-    value: function handleDeleteTasks() {
-      this.setState(function () {
-        return { tasks: [] };
+    key: 'handleMinusOne',
+    value: function handleMinusOne() {
+      this.setState(function (prevState) {
+        return {
+          count: prevState.count - 1
+        };
       });
     }
   }, {
-    key: 'onMakeDecision',
-    value: function onMakeDecision() {
-      var randomNum = Math.floor(Math.random() * this.state.tasks.length);
-      var task = this.state.tasks[randomNum];
-      alert(task);
+    key: 'handleReset',
+    value: function handleReset() {
+      this.setState(function () {
+        return {
+          count: 0
+        };
+      });
     }
   }, {
-    key: 'render',
-    value: function render() {
-      var title = "Prioritize!";
-      var subtitle = "Decide what your ONE priority for the day is!";
-
-      return React.createElement(
-        'div',
-        null,
-        React.createElement(Header, { title: title, subtitle: subtitle }),
-        React.createElement(Action, { makeDecision: this.onMakeDecision, hasTasks: this.state.tasks.length > 0 }),
-        React.createElement(TaskList, { deleteTasks: this.handleDeleteTasks, tasks: this.state.tasks }),
-        React.createElement(AddTask, { handleAddTask: this.handleAddTask })
-      );
-    }
-  }]);
-
-  return IndecisionApp;
-}(React.Component);
-
-var Header = function (_React$Component2) {
-  _inherits(Header, _React$Component2);
-
-  function Header() {
-    _classCallCheck(this, Header);
-
-    return _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).apply(this, arguments));
-  }
-
-  _createClass(Header, [{
     key: 'render',
     value: function render() {
       return React.createElement(
@@ -92,179 +61,33 @@ var Header = function (_React$Component2) {
         React.createElement(
           'h1',
           null,
-          this.props.title
+          'Count: ',
+          this.state.count
         ),
-        React.createElement(
-          'h2',
-          null,
-          this.props.subtitle
-        )
-      );
-    }
-  }]);
-
-  return Header;
-}(React.Component);
-
-var Action = function (_React$Component3) {
-  _inherits(Action, _React$Component3);
-
-  function Action() {
-    _classCallCheck(this, Action);
-
-    return _possibleConstructorReturn(this, (Action.__proto__ || Object.getPrototypeOf(Action)).apply(this, arguments));
-  }
-
-  _createClass(Action, [{
-    key: 'render',
-    value: function render() {
-      return React.createElement(
-        'div',
-        null,
         React.createElement(
           'button',
-          {
-            onClick: this.props.makeDecision,
-            disabled: !this.props.hasTasks
-          },
-          'What should I do?'
-        )
-      );
-    }
-  }]);
-
-  return Action;
-}(React.Component);
-
-// class DeleteButton extends React.Component {
-
-//   render() {
-//     return (
-//       <button onClick={this.handleDelete}>
-//         Delete All Tasks
-//       </button>
-//     )
-//   }
-// }
-
-var TaskList = function (_React$Component4) {
-  _inherits(TaskList, _React$Component4);
-
-  function TaskList() {
-    _classCallCheck(this, TaskList);
-
-    return _possibleConstructorReturn(this, (TaskList.__proto__ || Object.getPrototypeOf(TaskList)).apply(this, arguments));
-  }
-
-  _createClass(TaskList, [{
-    key: 'render',
-    value: function render() {
-      return React.createElement(
-        'div',
-        null,
+          { onClick: this.handleAddOne },
+          '+1'
+        ),
         React.createElement(
           'button',
-          { onClick: this.props.deleteTasks },
-          'delete all'
+          { onClick: this.handleMinusOne },
+          '-1'
         ),
         React.createElement(
-          'div',
-          null,
-          'There are ',
-          this.props.tasks.length,
-          ' tasks for the day!'
-        ),
-        this.props.tasks.map(function (item, idx) {
-          return React.createElement(Task, { key: idx, text: item });
-        })
-      );
-    }
-  }]);
-
-  return TaskList;
-}(React.Component);
-
-var Task = function (_React$Component5) {
-  _inherits(Task, _React$Component5);
-
-  function Task() {
-    _classCallCheck(this, Task);
-
-    return _possibleConstructorReturn(this, (Task.__proto__ || Object.getPrototypeOf(Task)).apply(this, arguments));
-  }
-
-  _createClass(Task, [{
-    key: 'render',
-    value: function render() {
-      console.log(this.props.text);
-      return React.createElement(
-        'div',
-        null,
-        React.createElement(
-          'p',
-          null,
-          this.props.text
+          'button',
+          { onClick: this.handleReset },
+          'reset'
         )
       );
     }
   }]);
 
-  return Task;
+  return Counter;
 }(React.Component);
 
-var AddTask = function (_React$Component6) {
-  _inherits(AddTask, _React$Component6);
+Counter.defaultProps = {
+  count: 0
+};
 
-  function AddTask(props) {
-    _classCallCheck(this, AddTask);
-
-    var _this6 = _possibleConstructorReturn(this, (AddTask.__proto__ || Object.getPrototypeOf(AddTask)).call(this, props));
-
-    _this6.handleAddTask = _this6.handleAddTask.bind(_this6);
-    _this6.state = {
-      error: undefined
-    };
-    return _this6;
-  }
-
-  _createClass(AddTask, [{
-    key: 'handleAddTask',
-    value: function handleAddTask(e) {
-      e.preventDefault();
-      // trim prevents empty strings and space in input
-      var task = e.target.elements.task.value.trim();
-      var error = this.props.handleAddTask(task);
-
-      this.setState(function () {
-        return { error: error };
-      });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      return React.createElement(
-        'div',
-        null,
-        this.state.error && React.createElement(
-          'p',
-          null,
-          this.state.error
-        ),
-        React.createElement(
-          'form',
-          { onSubmit: this.handleAddTask },
-          React.createElement('input', { className: 'input', type: 'text', name: 'task', placeholder: 'Enter task here...' }),
-          React.createElement(
-            'button',
-            null,
-            'Add task'
-          )
-        )
-      );
-    }
-  }]);
-
-  return AddTask;
-}(React.Component);
-
-ReactDOM.render(React.createElement(IndecisionApp, null), document.getElementById('app'));
+ReactDOM.render(React.createElement(Counter, { count: 2 }), document.getElementById('app'));
