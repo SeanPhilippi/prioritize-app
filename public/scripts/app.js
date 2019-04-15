@@ -2,239 +2,77 @@
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var PrioritizeApp = function (_React$Component) {
-  _inherits(PrioritizeApp, _React$Component);
+var Counter = function (_React$Component) {
+  _inherits(Counter, _React$Component);
 
-  function PrioritizeApp(props) {
-    _classCallCheck(this, PrioritizeApp);
+  function Counter(props) {
+    _classCallCheck(this, Counter);
 
-    var _this = _possibleConstructorReturn(this, (PrioritizeApp.__proto__ || Object.getPrototypeOf(PrioritizeApp)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (Counter.__proto__ || Object.getPrototypeOf(Counter)).call(this, props));
 
-    _this.handleDeleteTasks = _this.handleDeleteTasks.bind(_this);
-    _this.onMakeDecision = _this.onMakeDecision.bind(_this);
-    _this.handleAddTask = _this.handleAddTask.bind(_this);
-    _this.handleDeleteTask = _this.handleDeleteTask.bind(_this);
+    _this.handleAddOne = _this.handleAddOne.bind(_this);
+    _this.handleMinusOne = _this.handleMinusOne.bind(_this);
+    _this.handleReset = _this.handleReset.bind(_this);
     _this.state = {
-      tasks: props.tasks
+      count: 0
     };
     return _this;
   }
 
-  _createClass(PrioritizeApp, [{
+  _createClass(Counter, [{
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate(prevProps, prevState) {
+      if (prevState.count !== this.state.count) {
+        localStorage.setItem('count', parseInt(this.state.count, 10));
+      }
+    }
+  }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
+
       try {
-        var fetchedTasks = JSON.parse(localStorage.getItem('tasks'));
-        if (fetchedTasks) {
-          console.log('fetching data');
+        var fetchedNum = localStorage.getItem('count');
+        if (fetchedNum) {
           this.setState(function () {
-            return { tasks: fetchedTasks };
+            return { count: fetchedNum.toString() };
           });
         }
       } catch (err) {
-        console.log('error', err);
+        console.log('error: ', err);
       }
     }
   }, {
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate(prevProps, prevState) {
-      if (prevState.tasks.length !== this.state.tasks.length) {
-        console.log('saving data to localStorage');
-        var json = JSON.stringify(this.state.tasks);
-        localStorage.setItem('tasks', json);
-      }
-    }
-  }, {
-    key: 'handleAddTask',
-    value: function handleAddTask(task) {
-      if (!task) {
-        return 'Enter valid value to add item';
-      } else if (this.state.tasks.indexOf(task) > -1) {
-        return 'This tasks already exists';
-      }
-
+    key: 'handleAddOne',
+    value: function handleAddOne() {
       this.setState(function (prevState) {
         return {
-          tasks: prevState.tasks.concat(task)
+          count: prevState.count + 1
         };
       });
     }
   }, {
-    key: 'handleDeleteTasks',
-    value: function handleDeleteTasks() {
-      this.setState(function () {
-        return { tasks: [] };
-      });
-    }
-  }, {
-    key: 'handleDeleteTask',
-    value: function handleDeleteTask(task) {
+    key: 'handleMinusOne',
+    value: function handleMinusOne() {
       this.setState(function (prevState) {
         return {
-          tasks: [].concat(_toConsumableArray(prevState.tasks.filter(function (item) {
-            return item !== task;
-          })))
+          count: prevState.count - 1
         };
       });
     }
   }, {
-    key: 'onMakeDecision',
-    value: function onMakeDecision() {
-      var randomNum = Math.floor(Math.random() * this.state.tasks.length);
-      var task = this.state.tasks[randomNum];
-      alert(task);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var subtitle = "Decide what your ONE priority for the day is!";
-
-      return React.createElement(
-        'div',
-        null,
-        React.createElement(Header, { subtitle: subtitle }),
-        React.createElement(Action, { makeDecision: this.onMakeDecision, hasTasks: this.state.tasks.length > 0 }),
-        React.createElement(TaskList, {
-          deleteTask: this.handleDeleteTask,
-          deleteTasks: this.handleDeleteTasks,
-          tasks: this.state.tasks
-        }),
-        React.createElement(AddTask, { handleAddTask: this.handleAddTask })
-      );
-    }
-  }]);
-
-  return PrioritizeApp;
-}(React.Component);
-
-PrioritizeApp.defaultProps = {
-  tasks: []
-};
-
-var Header = function Header(props) {
-  return React.createElement(
-    'div',
-    null,
-    React.createElement(
-      'h1',
-      null,
-      props.title
-    ),
-    props.subtitle && React.createElement(
-      'h2',
-      null,
-      props.subtitle
-    )
-  );
-};
-
-Header.defaultProps = {
-  title: "Prioritize!"
-};
-
-var Action = function Action(props) {
-
-  return React.createElement(
-    'div',
-    null,
-    React.createElement(
-      'button',
-      {
-        onClick: props.makeDecision,
-        disabled: !props.hasTasks
-      },
-      'What should I do?'
-    )
-  );
-};
-
-var TaskList = function TaskList(props) {
-  return React.createElement(
-    'div',
-    null,
-    React.createElement(
-      'button',
-      {
-        onClick: props.deleteTasks
-      },
-      'delete all'
-    ),
-    React.createElement(
-      'div',
-      null,
-      'There are ',
-      props.tasks.length,
-      ' tasks for the day!'
-    ),
-    props.tasks.map(function (item, idx) {
-      return React.createElement(Task, {
-        deleteTask: props.deleteTask,
-        key: item,
-        text: item
-      });
-    })
-  );
-};
-
-var Task = function Task(props) {
-  return React.createElement(
-    'div',
-    null,
-    React.createElement(
-      'p',
-      null,
-      props.text,
-      React.createElement(
-        'button',
-        {
-          onClick: function onClick(e) {
-            return props.deleteTask(props.text);
-          }
-        },
-        'x'
-      )
-    )
-  );
-};
-
-var AddTask = function (_React$Component2) {
-  _inherits(AddTask, _React$Component2);
-
-  function AddTask(props) {
-    _classCallCheck(this, AddTask);
-
-    var _this2 = _possibleConstructorReturn(this, (AddTask.__proto__ || Object.getPrototypeOf(AddTask)).call(this, props));
-
-    _this2.handleAddTask = _this2.handleAddTask.bind(_this2);
-    _this2.state = {
-      error: undefined
-    };
-    return _this2;
-  }
-
-  _createClass(AddTask, [{
-    key: 'handleAddTask',
-    value: function handleAddTask(e) {
-      e.preventDefault();
-      // trim prevents empty strings and space in input
-      var task = e.target.elements.task.value.trim();
-      var error = this.props.handleAddTask(task);
-
+    key: 'handleReset',
+    value: function handleReset() {
       this.setState(function () {
-        return { error: error };
+        return {
+          count: 0
+        };
       });
-
-      if (!error) {
-        e.target.elements.task.value = '';
-      }
     }
   }, {
     key: 'render',
@@ -242,35 +80,32 @@ var AddTask = function (_React$Component2) {
       return React.createElement(
         'div',
         null,
-        this.state.error && React.createElement(
-          'p',
+        React.createElement(
+          'h1',
           null,
-          this.state.error
+          'Count: ',
+          this.state.count
         ),
         React.createElement(
-          'form',
-          { onSubmit: this.handleAddTask },
-          React.createElement('input', { className: 'input', type: 'text', name: 'task', placeholder: 'Enter task here...' }),
-          React.createElement(
-            'button',
-            null,
-            'Add task'
-          )
+          'button',
+          { onClick: this.handleAddOne },
+          '+1'
+        ),
+        React.createElement(
+          'button',
+          { onClick: this.handleMinusOne },
+          '-1'
+        ),
+        React.createElement(
+          'button',
+          { onClick: this.handleReset },
+          'reset'
         )
       );
     }
   }]);
 
-  return AddTask;
+  return Counter;
 }(React.Component);
 
-// const User = (props) => {
-//   return (
-//     <div>
-//       <p>Name: {props.name}</p>
-//       <p>Age: {props.age}</p>
-//     </div>
-//   )
-// }
-
-ReactDOM.render(React.createElement(PrioritizeApp, null), document.getElementById('app'));
+ReactDOM.render(React.createElement(Counter, null), document.getElementById('app'));

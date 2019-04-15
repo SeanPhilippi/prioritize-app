@@ -6,7 +6,7 @@ class PrioritizeApp extends React.Component {
     this.handleAddTask = this.handleAddTask.bind(this);
     this.handleDeleteTask = this.handleDeleteTask.bind(this);
     this.state = {
-      tasks: props.tasks
+      tasks: []
     }
   }
 
@@ -76,10 +76,6 @@ class PrioritizeApp extends React.Component {
   }
 }
 
-PrioritizeApp.defaultProps = {
-  tasks: []
-}
-
 
 const Header = props => {
   return (
@@ -117,6 +113,7 @@ const TaskList = props => {
       >
         delete all
       </button>
+      {props.tasks.length === 0 && <p>Add tasks to get started!</p>}
       <div>
         There are {props.tasks.length} tasks for the day!
       </div>

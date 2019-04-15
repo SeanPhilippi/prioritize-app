@@ -6,7 +6,25 @@ class Counter extends React.Component {
     this.handleMinusOne = this.handleMinusOne.bind(this);
     this.handleReset = this.handleReset.bind(this);
     this.state = {
-      count: props.count
+      count: 0
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.count !== this.state.count) {
+      localStorage.setItem('count', parseInt(this.state.count, 10))
+    }
+  }
+
+  componentDidMount() {
+    
+    try {
+      const fetchedNum = localStorage.getItem('count');
+      if (fetchedNum) {
+        this.setState(() => ({ count: fetchedNum.toString() }));
+      }
+    } catch (err) {
+      console.log('error: ', err);
     }
   }
 
@@ -46,8 +64,4 @@ class Counter extends React.Component {
   }
 }
 
-Counter.defaultProps = {
-  count: 0
-}
-
-ReactDOM.render(<PrioritizeApp />, document.getElementById('app'));
+ReactDOM.render(<Counter />, document.getElementById('app'));
