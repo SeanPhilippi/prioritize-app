@@ -18,11 +18,14 @@ class PrioritizeApp extends React.Component {
         this.setState(() => ({ tasks: fetchedTasks }));
       }
     } catch (err) {
-      console.log('error', err);
+      console.log(`error name: ${err.name}\nerror message: ${err.message}`);
     }
   }
   
   componentDidUpdate(prevProps, prevState) {
+    // checking for any changes in the number of tasks, that way the component
+    // doesn't re-render unnecessarily, such as if the user resets when the 
+    // count is already 0.  
     if (prevState.tasks.length !== this.state.tasks.length) {
       console.log('saving data to localStorage');
       const json = JSON.stringify(this.state.tasks);
