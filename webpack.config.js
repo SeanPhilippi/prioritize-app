@@ -1,12 +1,13 @@
-// entry point => output
+const path = require('path');
 
-console.log(__dirname)
+// console.log(__dirname)
+// console.log(path.join(__dirname, 'public'))
 
 module.exports = {
   entry: './src/app.js',
   output: {
     // have to give absolute path for path key
-    path: '/Users/kesto/aaJsProjects/prioritize-app',
+    path: path.join(__dirname, 'public'),
     filename: 'bundle.js'
   }
 }
