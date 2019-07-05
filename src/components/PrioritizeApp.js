@@ -3,10 +3,12 @@ import AddTask from './AddTask';
 import TaskList from './TaskList';
 import Action from './Action';
 import Header from './Header';
+import TaskModal from './TaskModal';
 
 export default class PrioritizeApp extends React.Component {
   state = {
-    tasks: []
+    tasks: [],
+    selectedTask: undefined,
   }
 
   handleAddTask = task => {
@@ -34,7 +36,9 @@ export default class PrioritizeApp extends React.Component {
   onMakeDecision = () => {
     const randomNum = Math.floor(Math.random() * this.state.tasks.length);
     const task = this.state.tasks[randomNum];
-    alert(task);
+    this.setState({
+      selectedTask: task
+    })
   }
 
   componentDidMount() {
@@ -73,6 +77,7 @@ export default class PrioritizeApp extends React.Component {
           tasks={this.state.tasks}
         />
         <AddTask handleAddTask={this.handleAddTask} />
+        <TaskModal selectedTask={this.state.selectedTask} />
       </div>
     );
   }
