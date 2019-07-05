@@ -41,6 +41,12 @@ export default class PrioritizeApp extends React.Component {
     })
   }
 
+  handleClearSelectedTask = () => {
+    this.setState({
+      selectedTask: null
+    })
+  }
+
   componentDidMount() {
     try {
       const fetchedTasks = JSON.parse(localStorage.getItem('tasks'));
@@ -77,7 +83,10 @@ export default class PrioritizeApp extends React.Component {
           tasks={this.state.tasks}
         />
         <AddTask handleAddTask={this.handleAddTask} />
-        <TaskModal selectedTask={this.state.selectedTask} />
+        <TaskModal
+          selectedTask={this.state.selectedTask}
+          clearTask={this.handleClearSelectedTask}
+        />
       </div>
     );
   }
