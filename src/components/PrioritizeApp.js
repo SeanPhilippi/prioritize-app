@@ -5,15 +5,36 @@ import Action from './Action';
 import Header from './Header';
 
 export default class PrioritizeApp extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleDeleteTasks = this.handleDeleteTasks.bind(this);
-    this.onMakeDecision = this.onMakeDecision.bind(this);
-    this.handleAddTask = this.handleAddTask.bind(this);
-    this.handleDeleteTask = this.handleDeleteTask.bind(this);
-    this.state = {
-      tasks: []
+  state = {
+    tasks: []
+  }
+
+  handleAddTask = task => {
+    if (!task) {
+      return 'Enter valid value to add item';
+    } else if (this.state.tasks.indexOf(task) > -1) {
+      return 'This tasks already exists';
     }
+
+    this.setState(prevState => ({
+      tasks: prevState.tasks.concat(task)
+    }))
+  }
+
+  handleDeleteTasks = () => {
+    this.setState(() => ({ tasks: [] }))
+  }
+
+  handleDeleteTask = task => {
+    this.setState(prevState => ({
+      tasks: [...prevState.tasks.filter(item => item !== task)]
+    }))
+  }
+
+  onMakeDecision = () => {
+    const randomNum = Math.floor(Math.random() * this.state.tasks.length);
+    const task = this.state.tasks[randomNum];
+    alert(task);
   }
 
   componentDidMount() {
@@ -37,34 +58,6 @@ export default class PrioritizeApp extends React.Component {
       const json = JSON.stringify(this.state.tasks);
       localStorage.setItem('tasks', json);
     }
-  }
-
-  handleAddTask(task) {
-    if (!task) {
-      return 'Enter valid value to add item';
-    } else if (this.state.tasks.indexOf(task) > -1) {
-      return 'This tasks already exists';
-    }
-
-    this.setState(prevState => ({
-      tasks: prevState.tasks.concat(task)
-    }))
-  }
-
-  handleDeleteTasks() {
-    this.setState(() => ({ tasks: [] }))
-  }
-
-  handleDeleteTask(task) {
-    this.setState(prevState => ({
-        tasks: [...prevState.tasks.filter(item => item !== task)]
-    }))
-  }
-
-  onMakeDecision() {
-    const randomNum = Math.floor(Math.random() * this.state.tasks.length);
-    const task = this.state.tasks[randomNum];
-    alert(task);
   }
 
   render() {

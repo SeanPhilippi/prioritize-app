@@ -15,7 +15,7 @@ export default class AddTask extends React.Component {
     if (!error) {
       e.target.elements.task.value = '';
     }
-  }
+  };
 
   render() {
     return (
