@@ -16,5 +16,12 @@ module.exports = {
       test: /\.js$/,
       exclude: /node_modules/
     }]
+  },
+  devtool: 'cheap-module-eval-source-map',
+  // devServer is serving up bundle.js from memory, no need to have a physical bundle.js anymore for development
+  // devServer combines live-server's features with webpack's build feature so they both can be done at the same time
+  // ** check scripts to see this
+  devServer: {
+    contentBase: path.join(__dirname, 'public')
   }
 }
