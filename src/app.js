@@ -3,6 +3,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PrioritizeApp from './components/PrioritizeApp';
-import './styles/styles.css';
+import 'normalize.css/normalize.css';
+import './styles/styles.scss';
 
 ReactDOM.render(<PrioritizeApp />, document.getElementById('app'));
