@@ -76,13 +76,15 @@ export default class PrioritizeApp extends React.Component {
     return (
       <div>
         <Header subtitle={subtitle} />
-        <Action makeDecision={this.onMakeDecision} hasTasks={this.state.tasks.length > 0} />
-        <TaskList
-          deleteTask={this.handleDeleteTask}
-          deleteTasks={this.handleDeleteTasks}
-          tasks={this.state.tasks}
-        />
-        <AddTask handleAddTask={this.handleAddTask} />
+        <div className="container">
+          <Action makeDecision={this.onMakeDecision} hasTasks={this.state.tasks.length > 0} />
+          <TaskList
+            deleteTask={this.handleDeleteTask}
+            deleteTasks={this.handleDeleteTasks}
+            tasks={this.state.tasks}
+          />
+          <AddTask handleAddTask={this.handleAddTask} />
+        </div>
         <TaskModal
           selectedTask={this.state.selectedTask}
           clearTask={this.handleClearSelectedTask}
