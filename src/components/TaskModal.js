@@ -11,7 +11,12 @@ const TaskModal = props => (
   >
     <h3>Selected Task</h3>
     {props.selectedTask && <p>{props.selectedTask}</p>}
-    <button onClick={() => props.clearTask()}>x</button>
+    <button
+      className="button"
+      onClick={() => props.clearTask()}
+    >
+      x
+    </button>
   </Modal>
 );
 

@@ -5,6 +5,7 @@ const Task = props => (
     <p>
       {props.text}
       <button
+        className="button button--link"
         onClick={e => props.deleteTask(props.text)}
       >
         x

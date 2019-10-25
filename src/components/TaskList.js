@@ -4,6 +4,7 @@ import Task from './Task';
 const TaskList = props => (
   <div>
     <button
+      className="button--link"
       onClick={props.deleteTasks}
     >
       delete all

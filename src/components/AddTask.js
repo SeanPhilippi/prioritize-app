@@ -23,7 +23,7 @@ export default class AddTask extends React.Component {
         {this.state.error && <p>{this.state.error}</p>}
         <form onSubmit={this.handleAddTask}>
           <input className="input" type="text" name="task" placeholder="Enter task here..."/>
-          <button>
+          <button className="button">
             Add task
           </button>
         </form>
