@@ -1,3 +1,11 @@
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: default;
+}
+
 // Big Button
 .big-button {
   background: $purple;
@@ -30,4 +38,8 @@
   border: none;
   color: $off-white;
   padding: 0;
+}
+
+.button--delete {
+  margin-left: $s-size;
 }

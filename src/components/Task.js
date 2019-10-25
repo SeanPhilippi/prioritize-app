@@ -1,12 +1,12 @@
 import React from 'react';
 
 const Task = props => (
-  <div>
-    <p>
-      {props.text}
+  <div className="task">
+    <p className="task__text">
+      { props.count }. { props.text }
       <button
-        className="button button--link"
-        onClick={e => props.deleteTask(props.text)}
+        className="button button--link button--delete"
+        onClick={ e => props.deleteTask(props.text) }
       >
         x
       </button>
