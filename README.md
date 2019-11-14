@@ -11,3 +11,5 @@ React, SCSS
 Front-end: ```npm run serve```
 
 Server: ```npm run dev-server```
+
+Then visit http://localhost:8081/.
